@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/drawable/back_shadow.xml" value="0.1" />
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/drawable/circular_curves.xml" value="0.141" />
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/drawable/circular_curves_image.xml" value="0.141" />
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/drawable/ic_cloud_icon.xml" value="0.1" />
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/drawable/ic_cludy.xml" value="0.141" />
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/drawable/ic_iclouds.xml" value="0.141" />
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/drawable/ic_location_icon.xml" value="0.141" />
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/drawable/primary_gradient.xml" value="0.141" />
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/layout-v28/activity_main.xml" value="0.22826086956521738" />
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/myprojects/kotlin_apps_trial/SupWeather/app/src/main/res/layout/home_brief_info.xml" value="0.264" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
