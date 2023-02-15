@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var weather : WeatherData
     private lateinit var locationProviderClient: FusedLocationProviderClient
-    private lateinit var userLocation: Location
+    private var userLocation: Location = Location("")
     var userLocationInitialized : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,23 +30,37 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         locationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         setTodayDate()
-        getLocation()
+        // call getLocation for real device
+        //getLocation()
+        // call emulatorLocationCall when running on emulator
+        emulatorLocationCall()
+        // create a tile for humidity
         humidityBrief.iconInfo.setImageResource(R.drawable.ic_humidity_icon)
         humidityBrief.topicTextInfo.text = "Humidity"
+        // create a tile for cloudy
         cloudBrief.iconInfo.setImageResource(R.drawable.ic_cloud_icon)
         cloudBrief.topicTextInfo.text = "Cloudy"
+        // handle refresh button functionality
         refreshButton.setOnClickListener {
             if(userLocationInitialized && userLocation.longitude != 0.0){
                 callWeatherApi(userLocation.latitude, userLocation.longitude)
             }else{
-                getLocation()
+                // call getLocation for real device
+                //getLocation()
+                // call emulatorLocationCall when running on emulator
+                emulatorLocationCall()
             }
+        }
+        // popular cities button
+        popularCities.setOnClickListener{
+            val intent = Intent(this, PopularCities::class.java)
+            startActivity(intent)
         }
     }
 
     // method to initialize url for weather API call
     private fun callWeatherApi(lat: Double, lon: Double){
-        val apiKey : String = "__Type your api key here___"
+        val apiKey : String = "c594fd3c34f1f26ba1866b335b0b69f8"
         val url : String = "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey"
         newApiCall(url)
     }
@@ -72,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 cityText.text = weather.name
                 currentWeatherTypeText.text = weather.weather[0].main
-                currentWeatherCelsius.text = "${kelvinToCelsius(weather.main.temp)}"
+                currentWeatherCelsius.text = "${Functions.kelvinToCelsius(weather.main.temp)}"
                 humidityBrief.textInfo.text = "${weather.main.humidity}%"
                 windBrief.textInfo.text = "${weather.wind.speed}km/h"
                 cloudBrief.textInfo.text = "${weather.clouds.all}%"
@@ -94,10 +108,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun kelvinToCelsius(kelvin: Float) : Int{
-        val celsius = kelvin - 273.15
-        return celsius.toInt()
-    }
 
     private fun setTodayDate(){
         val months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
@@ -113,28 +123,42 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun getLocation(){
         // if permission is granted or not
-        if(checkPermissions()){
-            // if location service is enabled or not
-            if(isLocationEnabled()){
-                // get current location and call weather api
-                locationProviderClient.lastLocation.addOnCompleteListener(this){task->
-                    if(task != null){
-                        val location: Location = task.result
-                        userLocation = location
-                        userLocationInitialized = true
-                        print("got location ${location.latitude} - ${location.longitude}")
-                        callWeatherApi(location.latitude, location.longitude)
+        try {
+            if (checkPermissions()) {
+                // if location service is enabled or not
+                if (isLocationEnabled()) {
+                    // get current location and call weather api
+                    locationProviderClient.lastLocation.addOnCompleteListener(this) { task ->
+                        if (task != null) {
+                            val location: Location = task.result
+                            userLocation = location
+                            userLocationInitialized = true
+                            print("got location ${location.latitude} - ${location.longitude}")
+                            callWeatherApi(location.latitude, location.longitude)
+                        }
                     }
+                } else {
+                    Toast.makeText(this, "Turn on location services", Toast.LENGTH_LONG).show()
+                    val locationIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(locationIntent)
                 }
-            }else{
-                Toast.makeText(this, "Turn on location services", Toast.LENGTH_LONG).show()
-                val locationIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(locationIntent)
-            }
 
-        }else{
-            requestLocationPermission()
+            } else {
+                requestLocationPermission()
+            }
         }
+        finally {
+            // if running on emulator
+            userLocation.latitude = 37.386051
+            userLocation.longitude = -122.083855
+            callWeatherApi(37.386051, -122.083855)
+        }
+    }
+
+    fun emulatorLocationCall(){
+        userLocation.latitude = 37.386051
+        userLocation.longitude = -122.083855
+        callWeatherApi(37.386051, -122.083855)
     }
 
     private fun requestLocationPermission() {

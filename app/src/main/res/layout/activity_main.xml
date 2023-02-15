@@ -131,6 +131,21 @@
         android:elevation="20dp"
         app:layout_constraintTop_toBottomOf="@id/humidityBrief"/>
 
+
+    <Button
+        android:id="@+id/popularCities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@drawable/circular_curves_city"
+        android:textColor="#000"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/cloudBrief"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Popular Cities" />
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/refreshButton"
         android:layout_width="wrap_content"
@@ -141,5 +156,7 @@
         android:backgroundTint="@color/purple_500"
         android:src="@drawable/ic_refresh"
         android:layout_margin="20dp" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
